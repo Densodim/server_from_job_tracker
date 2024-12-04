@@ -4,6 +4,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { router } from "./routes/jobRoutes.js";
 import dotenv from "dotenv";
+import authMiddleware from "./authMiddleware.js";
 
 dotenv.config();
 
@@ -25,7 +26,7 @@ app.use(
 );
 app.use(bodyParser.json());
 
-app.use(router);
+app.use(authMiddleware, router);
 
 mongoose
   .connect(dbUri)
