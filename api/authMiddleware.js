@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 
 const authMiddleware = (req, res, next) => {
+  console.log(req.cookies);
   const token = req.cookies._vercel_jwt; // Получаем куку
 
   if (!token) {
