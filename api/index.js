@@ -20,7 +20,7 @@ if (!dbUri) {
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "job-tracker-git-main-densos-projects.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })

@@ -8,9 +8,9 @@ export const router = express.Router();
 router.get("/api/jobs", async (req, res) => {
    // Устанавливаем куку
    res.cookie('your-cookie', req.cookies, {
-     httpOnly: true, // Кука недоступна через JS
-   //   secure: process.env.NODE_ENV === 'production', // Только через HTTPS в продакшене
-     sameSite: 'lax', // Кука отправляется только для того же сайта (предотвращает CSRF)
+     httpOnly: true, 
+   //   secure: process.env.NODE_ENV === 'production', 
+     sameSite: 'lax', 
    });
  
    try {
