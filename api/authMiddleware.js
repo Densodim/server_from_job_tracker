@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 const authMiddleware = (req, res, next) => {
-  const token = req.cookies.vercel_jwt; // Получаем куку
+  const token = req.cookies._vercel_jwt; // Получаем куку
 
   if (!token) {
     return res.status(401).json({ message: "Неавторизован" });
