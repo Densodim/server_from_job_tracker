@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 
 const authMiddleware = (req, res, next) => {
-  console.log(req.cookies);
   const token = req.cookies._vercel_jwt; // Получаем куку
 
   if (!token) {
@@ -16,3 +15,5 @@ const authMiddleware = (req, res, next) => {
     return res.status(403).json({ message: "Доступ запрещен" });
   }
 };
+
+export default authMiddleware;

@@ -6,6 +6,10 @@ import jwt from "jsonwebtoken";
 export const router = express.Router();
 
 router.get("/api/jobs", async (req, res) => {
+  // Cookies that have not been signed
+  console.log("Cookies: ", req.cookies);
+  // Cookies that have been signed
+  console.log("Signed Cookies: ", req.signedCookies);
   try {
     const jobs = await Job.find();
     res.status(200).json(jobs);
