@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import { router } from "./routes/jobRoutes.js";
 import dotenv from "dotenv";
 import authMiddleware from "./authMiddleware.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -25,6 +26,8 @@ app.use(
   })
 );
 app.use(bodyParser.json());
+
+app.use(cookieParser());
 
 app.use(authMiddleware, router);
 
