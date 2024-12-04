@@ -31,6 +31,12 @@ app.use(cookieParser());
 
 app.use(authMiddleware, router);
 
+res.cookie('your-cookie', 'value', {
+   httpOnly: true,
+   secure: process.env.NODE_ENV === 'production',
+   sameSite: 'lax',
+ });
+
 mongoose
   .connect(dbUri)
   .then(() => {
