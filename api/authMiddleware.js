@@ -8,7 +8,7 @@ const authMiddleware = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Проверяем токен
+    const decoded = jwt.verify(token, process.env.API_TOKEN); // Проверяем токен
     req.user = decoded; // Сохраняем данные пользователя
     next(); // Переходим к следующему middleware
   } catch (error) {
