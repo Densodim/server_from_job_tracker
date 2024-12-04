@@ -1,6 +1,7 @@
 import express from "express";
 import { Job } from "../models/job.js";
 import authMiddleware from "../authMiddleware.js";
+import jwt from "jsonwebtoken";
 
 export const router = express.Router();
 
@@ -63,7 +64,7 @@ router.post("/api/login", (req, res) => {
   const { username, password } = req.body;
 
   if (username === "admin" && password === "12345") {
-    const token = jwt.sign({ username }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ username }, process.env.API_TOKEN, {
       expiresIn: "1h",
     });
 
