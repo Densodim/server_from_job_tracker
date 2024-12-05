@@ -20,7 +20,11 @@ if (!dbUri) {
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://job-tracker-xi-seven.vercel.app"],
+    origin: [
+      "http://localhost:3000",
+      "https://job-tracker-xi-seven.vercel.app",
+      "https://job-tracker-git-main-densos-projects.vercel.app/",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -30,8 +34,6 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use(authMiddleware, router);
-
-
 
 mongoose
   .connect(dbUri)

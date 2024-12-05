@@ -6,24 +6,20 @@ import jwt from "jsonwebtoken";
 export const router = express.Router();
 
 router.get("/api/jobs", async (req, res) => {
-   // Устанавливаем куку
-   res.cookie('your-cookie', req.cookies, {
-     httpOnly: true, 
-   //   secure: process.env.NODE_ENV === 'production', 
-     sameSite: 'lax', 
-   });
- 
-   try {
-     // Получаем данные из базы
-     const jobs = await Job.find();
- 
-     // Отправляем куку и JSON-ответ
-     res.status(200).json(jobs);
-   } catch (error) {
-     // Обработка ошибок
-     res.status(500).json({ message: "Ошибка при получении вакансий" });
-   }
- });
+  res.cookie("your-cookie", req.cookies, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+
+  try {
+    const jobs = await Job.find();
+
+    res.status(200).json(jobs);
+  } catch (error) {
+    res.status(500).json({ message: "Ошибка при получении вакансий" });
+  }
+});
 
 router.post("/api/jobs", authMiddleware, async (req, res) => {
   const { company, position, salary, status, note } = req.body;
