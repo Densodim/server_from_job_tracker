@@ -23,7 +23,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://job-tracker-xi-seven.vercel.app",
-      "https://job-tracker-git-main-densos-projects.vercel.app/",
+      "https://job-tracker-git-main-densos-projects.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
