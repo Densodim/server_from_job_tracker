@@ -6,6 +6,8 @@ import { router } from "./routes/jobRoutes.js";
 import dotenv from "dotenv";
 import authMiddleware from "./authMiddleware.js";
 import cookieParser from "cookie-parser";
+import { authRoutes } from "./routes/authRoutes.js";
+import authenticateToken from "./authenticateToken.js";
 
 dotenv.config();
 
@@ -34,6 +36,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use(authMiddleware, router);
+app.use(authMiddleware, authRoutes);
 
 mongoose
   .connect(dbUri)
@@ -46,3 +49,5 @@ mongoose
   .catch((error) => {
     console.error("Ошибка при подключении к базе данных:", error);
   });
+
+//   {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NTM2ZTMzMzEyY2M0ZjUyMjFhMDMzYyIsImVtYWlsIjoiZGltYTJAdHR0dC5ieSIsImlhdCI6MTczMzUyMDk0NywiZXhwIjoxNzMzNTI0NTQ3fQ.i-MR3YSzu2zsnBmc34CfEvDjBAXZd67cckdbRv2P91I","user":{"id":"67536e33312cc4f5221a033c","email":"dima2@tttt.by","name":"dima"}}
