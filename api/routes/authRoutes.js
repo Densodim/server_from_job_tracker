@@ -2,8 +2,20 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
+import csrf from "csurf";
+import cookieParser from "cookie-parser";
 
 const router = express.Router();
+
+const csrfProtection = csrf({ cookie: true });
+
+function generateJWT(user) {
+  return jwt.sign({ id: user._id, email: user.email }, process.env.API_TOKEN, {
+    expiresIn: "1h",
+  });
+}
+
+router.use(cookieParser());
 
 router.post("/register", async (req, res) => {
   const { email, password, name } = req.body;
@@ -21,13 +33,9 @@ router.post("/register", async (req, res) => {
     const newUser = new User({ email, password: hashedPassword, name });
     await newUser.save();
 
-    const token = jwt.sign(
-      { id: newUser._id, email: newUser.email },
-      process.env.API_TOKEN,
-      {
-        expiresIn: "1h",
-      }
-    );
+    const token = generateJWT(newUser);
+
+    res.cookie("csrfToken", req.csrfToken(), { httpOnly: true });
 
     res.status(201).json({
       token,
@@ -39,7 +47,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", csrfProtection, async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -53,13 +61,9 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Неверный email или пароль" });
     }
 
-    const token = jwt.sign(
-      { id: user._id, email: user.email },
-      process.env.API_TOKEN,
-      {
-        expiresIn: "1h",
-      }
-    );
+    const token = generateJWT(user);
+
+    res.cookie("csrfToken", req.csrfToken(), { httpOnly: true });
 
     res.status(200).json({
       token,
@@ -69,6 +73,11 @@ router.post("/login", async (req, res) => {
     console.error("Ошибка авторизации:", error);
     res.status(500).json({ error: "Ошибка на сервере" });
   }
+});
+
+// Проверка CSRF-токена на защищённых маршрутах
+router.get("/protected", csrfProtection, (req, res) => {
+  res.status(200).json({ message: "Это защищённый маршрут" });
 });
 
 export { router as authRoutes };
